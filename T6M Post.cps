@@ -248,8 +248,8 @@ function getCode(code, spindle) {
     return 4;
   case "FEED_MODE_MM_REV":
     return 99;
-  case "FEED_MODE_MM_MIN":
-    return 98;
+//  case "FEED_MODE_MM_MIN":
+//    return 98;
   case "CONSTANT_SURFACE_SPEED_ON":
     return 96;
   case "CONSTANT_SURFACE_SPEED_OFF":
@@ -262,10 +262,10 @@ function getCode(code, spindle) {
     return (spindle == SPINDLE_MAIN) ? 89 : 189;
   case "UNLOCK_MULTI_AXIS":
     return (spindle == SPINDLE_MAIN) ? 90 : 190;
-  case "CLAMP_CHUCK":
-    return (spindle == SPINDLE_MAIN) ? 68 : 168;
-  case "UNCLAMP_CHUCK":
-    return (spindle == SPINDLE_MAIN) ? 69 : 169;
+//  case "CLAMP_CHUCK":
+//    return (spindle == SPINDLE_MAIN) ? 68 : 168;
+//  case "UNCLAMP_CHUCK":
+//    return (spindle == SPINDLE_MAIN) ? 69 : 169;
   case "SPINDLE_SYNCHRONIZATION_PHASE":
     return 213;
   case "SPINDLE_SYNCHRONIZATION_SPEED":
