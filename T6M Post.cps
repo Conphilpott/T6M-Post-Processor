@@ -217,9 +217,9 @@ var machineState = {
 function getCode(code, spindle) {
   switch(code) {
   case "PART_CATCHER_ON":
-    return 10;
+    return 34;
   case "PART_CATCHER_OFF":
-    return 11;
+    return 35;
   case "TAILSTOCK_ON":
     machineState.tailstockIsActive = true;
     return 78;
@@ -230,10 +230,10 @@ function getCode(code, spindle) {
     return (spindle == SPINDLE_MAIN) ? 80 : 83;
   case "ENABLE_C_AXIS":
     machineState.cAxisIsEngaged = true;
-    return (spindle == SPINDLE_MAIN) ? 35 : 135;
+    return (spindle == SPINDLE_MAIN) ? 109 : 135;
   case "DISABLE_C_AXIS":
     machineState.cAxisIsEngaged = true;
-    return (spindle == SPINDLE_MAIN) ? 34 : 134;
+    return (spindle == SPINDLE_MAIN) ? 110 : 134;
   case "POLAR_INTERPOLATION_ON":
     return 12.1;
   case "POLAR_INTERPOLATION_OFF":
@@ -296,13 +296,13 @@ function getCode(code, spindle) {
     }
     break;
   case "RIGID_TAPPING":
-    return 29;
+    return 84
   case "INTERLOCK_BYPASS":
     return (spindle == SPINDLE_MAIN) ? 31 : 131;
   case "INTERFERENCE_CHECK_OFF":
-    return 110;
+    return 1;
   case "INTERFERENCE_CHECK_ON":
-    return 111;
+    return 1;
   case "CYCLE_PART_EJECTOR":
     return 116;
   // coolant codes
