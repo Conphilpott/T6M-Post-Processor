@@ -1,2 +1,6 @@
 test windows
+<<<<<<< HEAD
 mac
+=======
+windows
+>>>>>>> 88820331183bfc07fbd2f059bd2dd5e9ff4281ee
