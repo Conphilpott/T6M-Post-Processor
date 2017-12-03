@@ -247,9 +247,9 @@ function getCode(code, spindle) {
   case "START_SPINDLE_CCW":
     return 4;
   case "FEED_MODE_MM_REV":
-    return 99;
+    return 95;
   case "FEED_MODE_MM_MIN":
-    return 98;
+    return 94;
   case "CONSTANT_SURFACE_SPEED_ON":
     return 96;
   case "CONSTANT_SURFACE_SPEED_OFF":
@@ -491,10 +491,10 @@ function onOpen() {
   }
 
   machineConfiguration = new MachineConfiguration(); // creates an empty configuration to be able to set eg vendor information
-  
+
   machineConfiguration.setVendor("Colchester");
   machineConfiguration.setModel("T6M");
-  
+
   if (!gotYAxis) {
     yOutput.disable();
   }
@@ -638,7 +638,7 @@ function onOpen() {
       }
     }
   }
-  
+
   // support program looping for bar work
   if (properties.looping) {
     if (properties.numberOfRepeats < 1) {
@@ -671,7 +671,7 @@ function onOpen() {
   if (properties.gotChipConveyor) {
     onCommand(COMMAND_START_CHIP_TRANSPORT);
   }
-  
+
   // automatically eject part at end of program
   if (properties.autoEject) {
     ejectRoutine = true;
@@ -1068,7 +1068,7 @@ function onSection() {
 
   setMachineConfiguration(machineConfiguration);
   currentSection.optimizeMachineAnglesByMachine(machineConfiguration, 0); // map tip mode
-  
+
   // Define Machining modes
   tapping = hasParameter("operation:cycleType") &&
     ((getParameter("operation:cycleType") == "tapping") ||
@@ -1091,7 +1091,7 @@ function onSection() {
     (tool.lengthOffset != getPreviousSection().getTool().lengthOffset);
 
   var retracted = false; // specifies that the tool has been retracted to the safe plane
-  
+
   var newWorkOffset = isFirstSection() ||
     (getPreviousSection().workOffset != currentSection.workOffset); // work offset changes
   var newWorkPlane = isFirstSection() ||
@@ -1105,7 +1105,7 @@ function onSection() {
     (getParameter("operation-strategy") == "turningPart");
 
   updateMachiningMode(currentSection); // sets the needed machining mode to machineState (usePolarMode, useXZCMode, axialCenterDrilling)
-  
+
   // Get the active spindle
   var newSpindle = true;
   var tempSpindle = getSpindle(false);
@@ -1113,7 +1113,7 @@ function onSection() {
     previousSpindle = tempSpindle;
   }
   newSpindle = tempSpindle != previousSpindle;
-  
+
   // End the previous section if a new tool is selected
   if (!isFirstSection() && insertToolCall &&
       !(stockTransferIsActive && partCutoff)) {
@@ -1288,7 +1288,7 @@ function onSection() {
     error(subst(localize("Unsupported machining direction for operation " +  "\"" + "%1" + "\"" + "."), getOperationComment()));
     return;
   }
-  
+
   var abc;
   if (machineConfiguration.isMultiAxisConfiguration()) {
     if (machineState.isTurningOperation) {
@@ -1318,7 +1318,7 @@ function onSection() {
     }
     setRotation(remaining);
   }
-  
+
   if (insertToolCall) {
     forceWorkPlane();
     cAxisEngageModal.reset();
@@ -1356,7 +1356,7 @@ function onSection() {
     if (tool.number > properties.maxTool) {
       warning(localize("Tool number exceeds maximum value."));
     }
-    
+
     if (tool.number == 0) {
       error(localize("Tool number cannot be 0"));
       return;
@@ -1502,7 +1502,7 @@ function onSection() {
   } else {
     activeMovements = undefined;
   }
-  
+
   previousSpindle = tempSpindle;
   activeSpindle = tempSpindle;
 
@@ -2032,7 +2032,7 @@ function onCircular(clockwise, cx, cy, cz, x, y, z, feed) {
       }
       break;
     }
-    
+
     linearize(getTolerance());
     return;
   }
@@ -2172,7 +2172,7 @@ function onCycle() {
       writeBlock(feedMode, gPlaneModal.format(18), cAxisEnableModal.format(getCode("DISABLE_C_AXIS", getSpindle(true))));
       writeBlock(mFormat.format(getCode("DISABLE_C_AXIS", getSecondarySpindle())));
     }
-    
+
     switch (cycleType) {
     case "secondary-spindle-return":
       var secondaryPull = false;
@@ -2248,7 +2248,7 @@ function onCycle() {
 */
       } else { // spindle rotation
         var transferCodes = getSpindleTransferCodes(transferType);
-        
+
         // Write out maximum spindle speed
         if (transferCodes.spindleMode == SPINDLE_CONSTANT_SURFACE_SPEED) {
           var maximumSpindleSpeed = (transferCodes.maximumSpindleSpeed > 0) ? Math.min(transferCodes.maximumSpindleSpeed, properties.maximumSpindleSpeed) : properties.maximumSpindleSpeed;
@@ -2279,7 +2279,7 @@ function onCycle() {
           formatComment(comment)
         );
       }
-      
+
       // clean out chips
       if (airCleanChuck) {
         writeBlock(mFormat.format(getCode("COOLANT_AIR_ON", SPINDLE_MAIN)), formatComment("CLEAN OUT CHIPS"));
@@ -2292,7 +2292,7 @@ function onCycle() {
       writeBlock(mInterferModal.format(getCode("INTERFERENCE_CHECK_OFF", getSpindle(true))));
       gMotionModal.reset();
       writeBlock(gMotionModal.format(0), conditional(cycle.useMachineFrame == 1, gFormat.format(53)), barOutput.format(cycle.feedPosition));
-            
+
       if (transferUseTorque) {
         writeBlock(mFormat.format(getCode("TORQUE_SKIP_ON", getSpindle(true))), formatComment("TORQUE SKIP ON"));
         writeBlock(
@@ -2309,7 +2309,7 @@ function onCycle() {
       }
       writeBlock(mFormat.format(getCode("CLAMP_CHUCK", getSecondarySpindle())), formatComment("CLAMP SUB SPINDLE"));
       writeBlock(mFormat.format(getCode("INTERLOCK_BYPASS", getSpindle(true))), formatComment("INTERLOCK BYPASS"));
-      
+
       onDwell(cycle.dwell);
       stockTransferIsActive = true;
       break;
@@ -2433,7 +2433,7 @@ function onCyclePoint(x, y, z) {
 
     var F = (gFeedModeModal.getCurrent() == 99 ? cycle.feedrate/tool.spindleRPM : cycle.feedrate);
     var P = (cycle.dwell == 0) ? 0 : clamp(1, cycle.dwell * 1000, 99999999); // in milliseconds
-    
+
     switch (cycleType) {
     case "drilling":
       writeCycleClearance(plane, cycle.clearance);
@@ -2636,12 +2636,12 @@ function setSpindle(tappingMode) {
   var spindleSpeed;
   var spindleMode;
   gSpindleModeModal.reset();
-  
+
   if ((getSpindle(true) == SPINDLE_SUB) && !gotSecondarySpindle) {
     error(localize("Secondary spindle is not available."));
     return;
   }
-  
+
   if (tappingMode) {
     spindleDir = mFormat.format(getCode("RIGID_TAPPING", getSpindle(false)));
   } else {
@@ -2820,7 +2820,7 @@ function ejectPart() {
     writeBlock(mFormat.format(getCode("PART_CATCHER_OFF", getSpindle(true))));
     onDwell(1.1);
   }
-  
+
   // clean out chips
   if (airCleanChuck) {
     writeBlock(mFormat.format(getCode("COOLANT_AIR_ON", getSpindle(true))));
@@ -2856,7 +2856,7 @@ function onSectionEnd() {
     writeBlock(gFormat.format(350), formatComment("CONFIRM CUTOFF"));
     onDwell(0.5);
   }
-  
+
 /*
   // Handled in start of onSection
   if (!isLastSection()) {
@@ -2865,7 +2865,7 @@ function onSectionEnd() {
     }
   }
 */
-  
+
   if (((getCurrentSectionId() + 1) >= getNumberOfSections()) ||
       (tool.number != getNextSection().getTool().number)) {
     onCommand(COMMAND_BREAK_CONTROL);
@@ -2930,7 +2930,7 @@ function onClose() {
     cAxisEngageModal.reset();
   }
   writeBlock(cAxisEngageModal.format(getCode("DISABLE_C_AXIS", getSpindle(true))));
-  
+
   // Automatically eject part
   if (ejectRoutine) {
     ejectPart();
