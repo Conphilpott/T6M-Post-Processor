@@ -53,7 +53,7 @@ highFeedrate = (unit == IN) ? 470 : 12000;
 // user-defined properties
 properties = {
   writeMachine: true, // write machine
-  writeTools: true, // writes the tools
+  writeTools: false, // writes the tools
   maxTool: 12,  // maximum tool number
   showSequenceNumbers: true, // show sequence numbers
   sequenceNumberStart: 1, // first sequence number
