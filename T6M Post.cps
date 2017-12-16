@@ -546,7 +546,8 @@ function onOpen() {
       writeComment(localize("post modified") + ": " + getHeaderDate());
     }
   }
-
+  writeln("");
+  writeln("XX.XXMM Stick Out");
   writeln("");
   writeComment("Posted using custom post processor written by Connor Philpott");
   writeComment("Copyright (C) 2017 by Connor Philpott")
