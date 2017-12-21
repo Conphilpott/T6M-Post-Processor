@@ -547,7 +547,7 @@ function onOpen() {
     }
   }
   writeln("");
-  writeComment("XX.XXMM Stick Out");
+  writeComment("XX.XXMM STICK OUT");
   writeln("");
   writeComment("Posted using custom post processor written by Connor Philpott");
   writeComment("Copyright (C) 2017 by Connor Philpott")
